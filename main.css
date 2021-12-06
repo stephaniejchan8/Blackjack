@@ -1,0 +1,42 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  background: rgba(53, 103, 30,	1);
+}
+
+/* =========== CARDS ============== */
+.computerCards {
+  position: relative;
+  top: 3vh;
+  left: 3vw;
+  display: flex;
+  flex-wrap: nowrap;
+}
+
+.card {
+  width: 85px;
+  height: 140px;
+  background: white;
+  border: 2px solid black;
+  border-radius: 5px;
+  margin-right: 1rem;
+}
+
+/* ================ GAME SCORE ================== */
+.gameScoreContainer {
+  position: absolute;
+  top: 2vh;
+  right: 2vw;
+}
+
+.gameScore {
+  display: flex;
+}
+
+.gameScore h3 {
+  font-size: 0.9rem;
+}
