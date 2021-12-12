@@ -1,0 +1,37 @@
+1. Create array with deck of 52 cards
+  Loop to automate card name, suit, value, available
+  Object - name, suit, value
+    ?available (or you could make 2 arrays - dealing deck array and a base deck array)
+2. Function: randomly select card from array
+  Create div with object/card's properties
+  Position according to which player it is, append to container
+  Remove card from available cards in deck
+3. Deal hidden card to user
+4. Deal hidden card to computer
+  no image, value indicates hidden
+5. Deal revealed card to user
+6. Deal revealed card to computer
+7. Function: calculate each player's total hand value
+  If blackjack = win
+  Allow for 2+ totals (ace card)
+8. Function: If player > 21 = instant lose (run on every card issued)
+  closest to 21 = win
+  blackjack = instant win
+9. Display player hand value only (updates)
+10. Create turn play - user first, then computer
+11. Button to deal another revealed card
+12. Button to stand - disable user turn until game ends
+13. Function for computer to decide to hit vs stand
+  Hit if <= 16
+14. Add game score to score box
+15. Reset dealing card deck array, remove cards on table
+16. Repeat from step 3
+
+
+Extra:
+- CSS animations to reveal card from deck
+- roll dice/coin toss to determine who goes first
+- make small talk
+- show hidden card value
+- make player's cards look realistic - rotated, overlapping
+- add betting function

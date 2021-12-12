@@ -1,20 +1,39 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
+
 * {
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: 'Roboto Slab', serif;
 }
 
 body {
   background: rgba(53, 103, 30,	1);
 }
 
+.computerSide, .playerSide {
+  height: calc((100vh - 140px) / 2);
+  border: dotted 5px blueviolet;
+}
+
+
 /* =========== CARDS ============== */
+
+.computerCards, .playerCards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  width: calc(90vw - 90px);
+}
 .computerCards {
-  position: relative;
+  /* position: relative; */
   top: 3vh;
   left: 3vw;
-  display: flex;
-  flex-wrap: nowrap;
+  border: solid 3px red;
+}
+
+.playerCards {
+  border: solid 3px black;
+  /* position: absolute; */
 }
 
 .card {
@@ -26,17 +45,57 @@ body {
   margin-right: 1rem;
 }
 
+.midTable {
+  display: flex;
+  justify-content: space-between;
+  width: 95vw;
+  margin: 0 auto;
+}
+
+.playerButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  /* margin-left: 1vw; */
+}
+
+.deck {
+  /* margin-right: 1vw; */
+}
+
+.hidden {
+  background: rgba(201, 74, 74, 0.781);
+}
+
 /* ================ GAME SCORE ================== */
 .gameScoreContainer {
   position: absolute;
+  display: inline-block;
   top: 2vh;
   right: 2vw;
+  border: chocolate dotted 2px;
 }
 
 .gameScore {
   display: flex;
+  align-items: center;
+  align-content: center;
+  background: white;
 }
 
-.gameScore h3 {
-  font-size: 0.9rem;
+.gameScoreContainer h2 {
+  font-size: 0.8rem;
+  background: black;
+  color: white;
+}
+
+.computerScore h3 {
+  font-size: 0.65rem;
+}
+.playerScore h3 {
+  font-size: 0.7rem;
+}
+
+.computerScore, .playerScore {
+  margin-right: 0.7rem;
 }
