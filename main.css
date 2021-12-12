@@ -16,6 +16,19 @@ body {
   border: dotted 5px blueviolet;
 }
 
+.midTable {
+  display: flex;
+  justify-content: space-between;
+  width: 95vw;
+  margin: 0 auto;
+}
+
+.playerButtons {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  /* margin-left: 1vw; */
+}
 
 /* =========== CARDS ============== */
 
@@ -43,28 +56,17 @@ body {
   border: 2px solid black;
   border-radius: 5px;
   margin-right: 1rem;
-}
-
-.midTable {
   display: flex;
-  justify-content: space-between;
-  width: 95vw;
-  margin: 0 auto;
-}
-
-.playerButtons {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-evenly;
-  /* margin-left: 1vw; */
-}
-
-.deck {
-  /* margin-right: 1vw; */
+  justify-content: center;
+  align-items: center;
 }
 
 .hidden {
   background: rgba(201, 74, 74, 0.781);
+}
+
+.red {
+  color: red;
 }
 
 /* ================ GAME SCORE ================== */
