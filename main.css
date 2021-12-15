@@ -70,34 +70,41 @@ body {
 }
 
 /* ================ GAME SCORE ================== */
-.gameScoreContainer {
+.gameScoreContainer, .handValueContainer {
   position: absolute;
   display: inline-block;
-  top: 2vh;
   right: 2vw;
   border: chocolate dotted 2px;
 }
 
-.gameScore {
+.gameScoreContainer {
+  top: 2vh;
+}
+
+.handValueContainer {
+  bottom: 4vh;
+}
+
+.gameScore, .handValue {
   display: flex;
   align-items: center;
   align-content: center;
   background: white;
 }
 
-.gameScoreContainer h2 {
+.gameScoreContainer h2, .handValueContainer h2 {
   font-size: 0.8rem;
   background: black;
   color: white;
 }
 
-.computerScore h3 {
+.computerScore h3, .computerHandValue h3 {
   font-size: 0.65rem;
 }
-.playerScore h3 {
+.playerScore h3, .playerHandValue h3 {
   font-size: 0.7rem;
 }
 
-.computerScore, .playerScore {
+.computerScore, .playerScore, .playerHandValue, .computerHandValue {
   margin-right: 0.7rem;
 }

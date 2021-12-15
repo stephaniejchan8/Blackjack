@@ -29,6 +29,8 @@
 
 
 Extra:
+- hidden cards
+- player and computer alternate in hitting
 - CSS animations to reveal card from deck
 - roll dice/coin toss to determine who goes first
 - make small talk
