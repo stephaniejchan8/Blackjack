@@ -1,10 +1,46 @@
-// Create array with deck of 52 cards
-//   Loop to automate card name, suit, cardValue, available
-// Object - name, suit, cardValue
-//   ? available(or you could make 2 arrays - dealing deck array and a base deck array)
+// ========== JS VARIABLES ===========
+// JS variable for winner annoucement
 const announcement = document.querySelector('.announcement');
+const announcementText = document.querySelector('.announcement p');
+const close = document.querySelector('.close');
+
+// JS variables for player buttons
 const hitMe = document.querySelector('.hit');
 const playerStand = document.querySelector('.stand');
+
+// JS variables for hand values and game scores
+const computerHandValue = document.querySelector('.computerHandValue p');
+const playerHandValue = document.querySelector('.playerHandValue p');
+const computerScore = document.querySelector('.computerScore p');
+const playerScore = document.querySelector('.playerScore p');
+
+// JS variables for DOM of computer and player cards
+const computerCards = document.querySelector('.computerCards');
+const playerCards = document.querySelector('.playerCards');
+
+// ========== PLAYER/COMPUTER STATS =========
+const player = {
+  name: 'player',
+  win: 'N/A',
+  stand: false,
+  allCards: playerCards.getElementsByClassName('card'),
+  hand: 0,
+  altHand: 0,
+  bestHand: 0,
+  score: 0
+};
+const computer = {
+  name: 'computer',
+  win: 'N/A',
+  stand: false,
+  allCards: computerCards.getElementsByClassName('card'),
+  hand: 0,
+  altHand: 0,
+  bestHand: 0,
+  score: 0
+};
+
+// ============= DECK OF CARDS ============
 // Create array for deck of card objects
 const deck = [];
 
@@ -56,30 +92,25 @@ for (let i = 0; i < 52; ++i) {
   deck.push(tempCard);
 }
 
-// Declare JS variables for DOM of computer and player cards
-const computerCards = document.querySelector('.computerCards');
-const playerCards = document.querySelector('.playerCards');
+// ========== PLAYER BUTTONS ===========
 
-// Create JS objects to store if user has won or is standing
-const player = {
-  name: 'player',
-  win: 'N/A',
-  stand: false,
-  allCards: playerCards.getElementsByClassName('card'),
-  hand: '0',
-  score: 0
-};
-const computer = {
-  name: 'computer',
-  win: 'N/A',
-  stand: false,
-  allCards: computerCards.getElementsByClassName('card'),
-  hand: '0',
-  score: 0
-};
-const computerHandValue = document.querySelector('.computerHandValue p');
-const playerHandValue = document.querySelector('.playerHandValue p');
+hitMe.addEventListener('click', function () {
+  createCard(playerCards);
+  calcHandValue(player);
+});
+playerStand.addEventListener('click', function () {
+  disableButtons();
+  player.stand = true;
+  // Continue game if no user has won
+  while (player.win === 'N/A' && computer.win === 'N/A') {
+    computerTurn();
+    if (computer.stand) {
+      calcWinner();
+    }
+  }
+});
 
+// ================= FUNCTIONS ==============
 // Randomly generate an index number for the deck array
 function randomCardNo() {
   let tempNo = Math.floor(Math.random() * 52);
@@ -94,7 +125,7 @@ function randomCardNo() {
 
 // Function to create cards
 // Parameter determines which user to assign card to
-const createCard = (personCards) => {
+function createCard(personCards) {
   const card = document.createElement('div');
   card.classList.add('card');
   const deckIndex = randomCardNo();
@@ -115,13 +146,26 @@ const createCard = (personCards) => {
   deck[deckIndex].available = "in play";
 }
 
-
 // Deal first 2 cards to each user
-for (let i = 0; i < 2; ++i) {
-  createCard(playerCards);
-  createCard(computerCards);
-  calcHandValue(computer);
-  calcHandValue(player);
+function setup() {
+  for (let i = 0; i < 2; ++i) {
+    displayScore();
+    createCard(playerCards);
+    createCard(computerCards);
+    calcHandValue(computer);
+    calcHandValue(player);
+  };
+}
+
+// Disable player buttons 
+function disableButtons() {
+  hitMe.setAttribute('disabled', 'true');
+  playerStand.setAttribute('disabled', 'true');
+}
+
+function enableButtons() {
+  hitMe.removeAttribute('disabled');
+  playerStand.removeAttribute('disabled');
 }
 
 // 7. Function: calculate each user's total hand cardValue
@@ -141,27 +185,46 @@ function calcHandValue(user) {
   console.log(user.name + `hand value: `, total);
   if (altAce) {
     altTotal = total + 10;
-    console.log(user.name + `alt hand value: `, altTotal);
+    user.altHand = altTotal;
     if (altTotal <= 21) {
-      user.hand = `${total} / ${altTotal}`;
+      console.log(user.name + `alt hand value: `, altTotal);
+      user.bestHand = altTotal;
+    }
+    else {
+      user.bestHand = total;
     }
   } else {
-    user.hand = `${total}`;
+    user.bestHand = total;
   }
-  displayValue(user.name);
-  checkWinner(user, total, altTotal);
+  user.hand = total;
+  displayValue(user.name, altTotal);
+  checkWinner(user);
 }
 
-function displayValue(userName) {
-  if (userName === 'player') {
-    playerHandValue.textContent = player.hand;
+function displayValue(userName, aceTotal) {
+  if (aceTotal && aceTotal <= 21) {
+    if (userName === 'player') {
+      playerHandValue.textContent = player.hand + ' / ' + player.altHand;
+    } else {
+      computerHandValue.textContent = computer.hand + ' / ' + computer.altHand;
+    }
   } else {
-    computerHandValue.textContent = computer.hand;
+    if (userName === 'player') {
+      playerHandValue.textContent = player.hand;
+    } else {
+      computerHandValue.textContent = computer.hand;
+    }
   }
 }
 
+function displayScore() {
+  computerScore.textContent = computer.score;
+  playerScore.textContent = player.score;
+}
+
+// Computer keeps hitting if hand value is less than 17
 function computerTurn() {
-  if (+computer.hand <= 16) {
+  if (computer.bestHand <= 16) {
     createCard(computerCards);
     calcHandValue(computer);
   } else {
@@ -169,66 +232,71 @@ function computerTurn() {
   }
 }
 
+// Checks if user has won with additional card
+function checkWinner(user) {
+  if (user.bestHand === 21) {
+    user.win = 'win';
+    disableButtons();
+    announceWinner(user);
+    console.log(`Blackjack!`);
+  } else if (user.bestHand > 21) {
+    user.win = 'lose';
+    disableButtons();
+    calcWinner();
+    console.log(user.name + 'lost');
+  }
+}
 
-
+// Determine who is the winner as no more cards will be dealt 
 function calcWinner() {
   if (computer.win === 'lose') {
     announceWinner(player);
   } else if (player.win === 'lose') {
     announceWinner(computer);
-  } else if (+player.hand > +computer.hand) {
+  } else if (player.bestHand > computer.bestHand) {
     announceWinner(player);
-  } else if (+player.hand === +computer.hand) {
+  } else if (player.bestHand === computer.bestHand) {
     announceTie();
   } else {
     announceWinner(computer);
   }
 }
 
+// Announce a tie
 function announceTie() {
   player.win = 'tie';
-  announcement.textContent = "It's a tie!";
+  announcementText.textContent = "It's a tie!";
   announcement.classList.add('show');
 }
 
+// Announce a winner
 function announceWinner(user) {
   user.win = 'win';
-  announcement.textContent = `${user.name} wins!`;
+  ++user.score;
+  announcementText.textContent = `${user.name} wins!`;
   announcement.classList.add('show');
+  displayScore();
 }
 
+// Reset user's statistics
+function reset(user) {
+  user.win = 'N/A';
+  user.stand = false;
+  user.hand = 0;
+  user.altHand = 0;
+  user.bestHand = 0;
+}
 
-hitMe.addEventListener('click', function() {
-  createCard(playerCards);
-  calcHandValue(player);
+// ========== START GAME ===========
+setup();
+
+// ========== NEXT GAME ===========
+close.addEventListener('click', function () {
+  playerCards.innerHTML = '';
+  computerCards.innerHTML = '';
+  reset(player);
+  reset(computer);
+  announcement.classList.remove('show');
+  setup();
+  enableButtons();
 });
-playerStand.addEventListener('click', function() {
-  disableButtons();
-  player.stand = true;
-  // Continue game if no user has won
-  while (player.win === 'N/A' && computer.win === 'N/A') {
-    computerTurn();
-    if (computer.stand) {
-      calcWinner();
-    }
-  }
-});
-
-function checkWinner(user, total1, total2) {
-  if (total1 === 21 || total2 === 21) {
-    user.win = 'win';
-    disableButtons();
-    announceWinner(user);
-    console.log(`Blackjack!`);
-  } else if (total1 > 21) {
-    user.win = 'lose';
-    disableButtons();
-    calcWinner();
-    console.log(player.name + 'lost');
-  }
-}
-
-function disableButtons() {
-  hitMe.setAttribute('disabled', 'true');
-  playerStand.setAttribute('disabled', 'true');
-}
