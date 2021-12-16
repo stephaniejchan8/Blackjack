@@ -19,6 +19,7 @@
   blackjack = instant win
 9. Display player hand value only (updates)
 10. Create turn play - user first, then computer
+  can call computer function after a button is pressed
 11. Button to deal another revealed card
 12. Button to stand - disable user turn until game ends
 13. Function for computer to decide to hit vs stand
@@ -27,7 +28,8 @@
 15. Reset dealing card deck array, remove cards on table
 16. Repeat from step 3
 
-
+MAKE ACCESSIBLE
+MAKE RESPONSIVE
 Extra:
 - hidden cards
 - player and computer alternate in hitting
