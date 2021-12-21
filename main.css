@@ -30,6 +30,7 @@ body {
 button {
     padding: 0.3rem;
     font-size: 0.9rem;
+    border-radius: 5px;
 }
 
 .playerButtons {
@@ -40,12 +41,12 @@ button {
 }
 
 .stand {
-    background: white;
+    background: rgb(230, 230, 230);
     color: red;
 }
 
 .hit {
-    background: white;
+    background: rgb(230, 230, 230);
     color: forestgreen;
 }
 
@@ -53,6 +54,9 @@ button {
     display: block;
 }
 
+button:disabled {
+    opacity: 0.5;
+}
 
 /* =========== CARDS ============== */
 

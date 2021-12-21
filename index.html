@@ -12,9 +12,7 @@
 
 <body>
     <section class="computerSide">
-        <div class="computerCards">
-            <!-- <div class="hidden card"></div> -->
-            <!-- <div class="card"></div> -->
+        <div class="computerCards" tabindex="2" aria-label="Computer's cards">
         </div>
 
         <div class="gameScoreContainer">
@@ -32,7 +30,7 @@
         </div>
     </section>
     <aside class="announcement">
-        <p></p>
+        <p tabindex="4" role="status" aria-live="polite"></p>
         <button class="close" tabindex="4">Next Game</button>
     </aside>
     <section class="midTable">
@@ -43,20 +41,18 @@
         <div class="deck card hidden"></div>
     </section>
     <section class="playerSide">
-        <div class="playerCards">
-            <!-- <div class="hidden card"></div> -->
-            <!-- <div class="card"></div> -->
+        <div class="playerCards" tabindex="2" aria-label="Player's cards">
         </div>
         <div class="handValueContainer">
             <h2>Hand Value</h2>
             <div class="valueStyle">
                 <div class="computerHandValue">
                     <h3>Computer</h3>
-                    <p tabindex="6"></p>
+                    <p tabindex="5"></p>
                 </div>
                 <div class="playerHandValue">
                     <h3>Player</h3>
-                    <p tabindex="6"></p>
+                    <p tabindex="5"></p>
                 </div>
             </div>
         </div>
