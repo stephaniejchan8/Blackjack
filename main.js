@@ -1,3 +1,15 @@
+// ========== CONSTANT VALUES ============
+// Number of cards in a standard deck
+const deckSize = 52;
+// Last index of number cards in an ordered
+const numberCards = 36;
+// Index of ace cards in an ordered deck
+const aceCards = 48;
+// Score to win blackjack
+const blackjack = 21;
+// Score at which computer will stand
+const computerHandLimit = 17;
+
 // ========== JS VARIABLES ===========
 // JS variable for winner annoucement
 const announcement = document.querySelector('.announcement');
@@ -9,8 +21,6 @@ const hitMe = document.querySelector('.hit');
 const playerStand = document.querySelector('.stand');
 
 // JS variables for hand values and game scores
-// const computerHandValue = document.querySelector('.computerHandValue p');
-// const playerHandValue = document.querySelector('.playerHandValue p');
 const computerScore = document.querySelector('.computerScore p');
 const playerScore = document.querySelector('.playerScore p');
 
@@ -43,18 +53,21 @@ const computer = {
 };
 
 
-
 // ========== PLAYER BUTTONS ===========
 
+// Add card to player's side if player activates hit
 hitMe.addEventListener('click', function () {
     createCard(playerCards);
     calcHandValue(player);
 });
+
+// Disable player's turns if they choose to stand
 playerStand.addEventListener('click', function () {
     disableButtons();
     player.stand = true;
     // Continue game if no user has won
     while (player.win === 'N/A' && computer.win === 'N/A') {
+        // Computer keeps playing until computer stands
         computerTurn();
         if (computer.stand) {
             calcWinner();
@@ -65,9 +78,6 @@ playerStand.addEventListener('click', function () {
 // ============= DECK OF CARDS ============
 // Create array for deck of card objects
 const deck = [];
-const deckSize = 52;
-const numberCards = 36;
-const aceCards = 48;
 
 // Function to create deck of cards with name, suit, value, available
 function createDeck() {
@@ -124,6 +134,7 @@ function createDeck() {
 
 createDeck();
 
+// Function to reset all cards in deck to be available
 function resetDeck() {
     for (let i = 0; i < deckSize; ++i) {
         deck[i].available = true;
@@ -150,6 +161,7 @@ function createCard(personCards) {
     card.classList.add('card');
     card.tabIndex = 2;
     const deckIndex = randomCardNo();
+    // Add card's suit and full name for all number cards
     if (deckIndex < numberCards) {
         if (deck[deckIndex].suit === 'Diamonds') {
             card.innerHTML = `<p>${ deck[deckIndex].name}</p><img class='suit' alt='Diamonds' src="images/diamond.png" />`;
@@ -163,7 +175,7 @@ function createCard(personCards) {
             card.innerHTML = `<p>${ deck[deckIndex].name}</p><img class='suit' alt='Spades' src="images/spade.png" />`;
         }
     } else {
-        // Add card's initial letter and suit to the div 'card'
+        // Add card's initial letter and suit to the div 'card' for cards J, Q, K, A
         if (deck[deckIndex].suit === 'Diamonds') {
             card.innerHTML = `<p>${ deck[deckIndex].name.charAt(0) }</p><img class='suit' alt='Diamonds' src="images/diamond.png" />`;
             card.classList.add('red');
@@ -181,8 +193,7 @@ function createCard(personCards) {
     if (deck[deckIndex].altCardValue) {
         card.dataset.altCardValue = deck[deckIndex].altCardValue;
     }
-//     const cardDescription = `${deck[deckIndex].name} of ${deck[deckIndex].suit}`;
-// console.log(cardDescription);
+    // Set ARIA label to card for accessibility
     card.setAttribute('aria-label', `${deck[deckIndex].name} of ${deck[deckIndex].suit}`);
     // Add card to correct user's side
     personCards.appendChild(card);
@@ -207,6 +218,7 @@ function disableButtons() {
     playerStand.setAttribute('disabled', 'true');
 }
 
+// Enable player buttons
 function enableButtons() {
     hitMe.removeAttribute('disabled');
     playerStand.removeAttribute('disabled');
@@ -220,46 +232,48 @@ function calcHandValue(user) {
     let total = 0;
     let altTotal = 0;
     let altAce = false;
+    // Loop to sum all card's values
     for (let i = 0; i < cardsArray.length; ++i) {
         total += +cardsArray[i].dataset.cardValue;
+        // Check if user has an ace in their hand
         if (cardsArray[i].dataset.altCardValue) {
             altAce = true;
         }
     }
+    // Set user's alternate hand value if ace has value of 11
     if (altAce) {
         altTotal = total + 10;
         user.altHand = altTotal;
-        if (altTotal <= 21) {
+        // Check if ace can have value of 11 without busting
+        if (altTotal <= blackjack) {
             user.bestHand = altTotal;
         } else {
             user.bestHand = total;
         }
-    } else {
+    } // if no ace in hand, the user's best hand is their standard hand
+    else {
         user.bestHand = total;
     }
+    // Set user's standard hand value to standard total
     user.hand = total;
     displayValue(user, altTotal);
     checkWinner(user);
 }
 
+// Function to update hand value of user
 function displayValue(user, aceTotal) {
-    if (aceTotal && aceTotal <= 21) {
-        // if (user.name === 'Player') {
+    // Hand value has 2 valid values due to ace card
+    if (aceTotal && aceTotal <= blackjack) {
             user.handValue.textContent = user.hand + ' / ' + user.altHand;
             user.handValue.setAttribute('aria-label', `${user.name}'s hand value is ${user.hand} or ${user.altHand}.`);
-        // } else {
-        //     computerHandValue.textContent = computer.hand + ' / ' + computer.altHand;
-        // }
-    } else {
-        // if (userName === 'Player') {
+    } // Else hand value has 1 valid value
+    else {
             user.handValue.textContent = user.hand;
         user.handValue.setAttribute('aria-label', `${ user.name }'s hand value is ${ user.hand }.`);
-        // } else {
-        //     computerHandValue.textContent = computer.hand;
-        // }
     }
 }
 
+// Function to update game score
 function displayScore() {
     computerScore.textContent = computer.score;
     computerScore.setAttribute('aria-label', `Computer has won ${ computer.score } games.`);
@@ -269,7 +283,7 @@ function displayScore() {
 
 // Computer keeps hitting if hand value is less than 17
 function computerTurn() {
-    if (computer.bestHand <= 16) {
+    if (computer.bestHand < computerHandLimit) {
         createCard(computerCards);
         calcHandValue(computer);
     } else {
@@ -279,11 +293,11 @@ function computerTurn() {
 
 // Checks if user has won with additional card
 function checkWinner(user) {
-    if (user.bestHand === 21) {
+    if (user.bestHand === blackjack) {
         user.win = 'win';
         disableButtons();
         announceWinner(user);
-    } else if (user.bestHand > 21) {
+    } else if (user.bestHand > blackjack) {
         user.win = 'lose';
         disableButtons();
         calcWinner();
@@ -292,11 +306,13 @@ function checkWinner(user) {
 
 // Determine who is the winner as no more cards will be dealt 
 function calcWinner() {
+    // Check if either user lost
     if (computer.win === 'lose') {
         announceWinner(player);
     } else if (player.win === 'lose') {
         announceWinner(computer);
-    } else if (player.bestHand > computer.bestHand) {
+    } // Check which user has higher hand value
+    else if (player.bestHand > computer.bestHand) {
         announceWinner(player);
     } else if (player.bestHand === computer.bestHand) {
         announceTie();
@@ -316,6 +332,7 @@ function announceTie() {
 // Announce a winner
 function announceWinner(user) {
     user.win = 'win';
+    // Add a point to user's score
     ++user.score;
     announcementText.textContent = `${ user.name } wins!`;
     announcement.classList.add('show');
@@ -323,7 +340,7 @@ function announceWinner(user) {
     displayScore();
 }
 
-// Reset user's statistics
+// Reset user's statistics for new game
 function reset(user) {
     user.win = 'N/A';
     user.stand = false;
@@ -336,12 +353,15 @@ function reset(user) {
 setup();
 
 // ========== NEXT GAME ===========
+// Clicking close triggers new game
 close.addEventListener('click', function () {
+    // Remove player and computer cards
     playerCards.innerHTML = '';
     computerCards.innerHTML = '';
     resetDeck();
     reset(player);
     reset(computer);
+    // Remove announcement
     announcement.classList.remove('show');
     setup();
     enableButtons();
