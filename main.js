@@ -40,6 +40,7 @@ const player = {
     handValue: document.querySelector('.playerHandValue p'),
     score: 0
 };
+
 const computer = {
     name: 'Computer',
     win: 'N/A',
@@ -164,15 +165,15 @@ function createCard(personCards) {
     // Add card's suit and full name for all number cards
     if (deckIndex < numberCards) {
         if (deck[deckIndex].suit === 'Diamonds') {
-            card.innerHTML = `<p>${ deck[deckIndex].name}</p><img class='suit' alt='Diamonds' src="images/diamond.png" />`;
+            card.innerHTML = `<p>${ deck[deckIndex].name }</p><img class='suit' alt='Diamonds' src="images/diamond.png" />`;
             card.classList.add('red');
         } else if (deck[deckIndex].suit === 'Hearts') {
-            card.innerHTML = `<p>${ deck[deckIndex].name}</p><img class='suit' alt='Hearts' src="images/heart.png" />`;
+            card.innerHTML = `<p>${ deck[deckIndex].name }</p><img class='suit' alt='Hearts' src="images/heart.png" />`;
             card.classList.add('red');
         } else if (deck[deckIndex].suit === 'Clubs') {
-            card.innerHTML = `<p>${ deck[deckIndex].name}</p><img class='suit' alt='Clubs' src="images/club.png" />`;
+            card.innerHTML = `<p>${ deck[deckIndex].name }</p><img class='suit' alt='Clubs' src="images/club.png" />`;
         } else {
-            card.innerHTML = `<p>${ deck[deckIndex].name}</p><img class='suit' alt='Spades' src="images/spade.png" />`;
+            card.innerHTML = `<p>${ deck[deckIndex].name }</p><img class='suit' alt='Spades' src="images/spade.png" />`;
         }
     } else {
         // Add card's initial letter and suit to the div 'card' for cards J, Q, K, A
@@ -194,7 +195,7 @@ function createCard(personCards) {
         card.dataset.altCardValue = deck[deckIndex].altCardValue;
     }
     // Set ARIA label to card for accessibility
-    card.setAttribute('aria-label', `${deck[deckIndex].name} of ${deck[deckIndex].suit}`);
+    card.setAttribute('aria-label', `${ deck[deckIndex].name } of ${ deck[deckIndex].suit }`);
     // Add card to correct user's side
     personCards.appendChild(card);
     //   Remove card from available cards in deck
@@ -209,6 +210,8 @@ function setup() {
         createCard(computerCards);
         calcHandValue(computer);
         calcHandValue(player);
+        // Check winner for computer does not run on setup calcHandValue because we are checking if both people got blackjack on dealing
+        checkWinner(computer);
     };
 }
 
@@ -257,18 +260,21 @@ function calcHandValue(user) {
     // Set user's standard hand value to standard total
     user.hand = total;
     displayValue(user, altTotal);
-    checkWinner(user);
+    // 
+    if (computer.hand && player.hand) {
+        checkWinner(user);
+    }
 }
 
 // Function to update hand value of user
 function displayValue(user, aceTotal) {
     // Hand value has 2 valid values due to ace card
     if (aceTotal && aceTotal <= blackjack) {
-            user.handValue.textContent = user.hand + ' / ' + user.altHand;
-            user.handValue.setAttribute('aria-label', `${user.name}'s hand value is ${user.hand} or ${user.altHand}.`);
+        user.handValue.textContent = user.hand + ' / ' + user.altHand;
+        user.handValue.setAttribute('aria-label', `${ user.name }'s hand value is ${ user.hand } or ${ user.altHand }.`);
     } // Else hand value has 1 valid value
     else {
-            user.handValue.textContent = user.hand;
+        user.handValue.textContent = user.hand;
         user.handValue.setAttribute('aria-label', `${ user.name }'s hand value is ${ user.hand }.`);
     }
 }
@@ -293,7 +299,13 @@ function computerTurn() {
 
 // Checks if user has won with additional card
 function checkWinner(user) {
-    if (user.bestHand === blackjack) {
+    // Check if both people got blackjack on setup
+    if (player.bestHand === blackjack && computer.bestHand === blackjack) {
+        player.win = 'tie';
+        computer.win = 'tie';
+        disableButtons();
+        announceTie();
+    } else if (user.bestHand === blackjack) {
         user.win = 'win';
         disableButtons();
         announceWinner(user);
@@ -324,8 +336,10 @@ function calcWinner() {
 // Announce a tie
 function announceTie() {
     player.win = 'tie';
+    close.classList.add('redFont');
     announcementText.textContent = "It's a tie!";
-    announcement.classList.add('show');
+    announcementText.classList.add('redFont');
+    announcement.classList.add('show', 'tie');
     close.focus();
 }
 
@@ -335,6 +349,14 @@ function announceWinner(user) {
     // Add a point to user's score
     ++user.score;
     announcementText.textContent = `${ user.name } wins!`;
+    if (user.name === 'Computer') {
+        announcement.classList.add('computerWins');
+        close.classList.add('green');
+    } else {
+        announcement.classList.add('playerWins');
+        announcementText.classList.add('playerText');
+        close.classList.add('purple');
+    }
     announcement.classList.add('show');
     close.focus();
     displayScore();
@@ -362,8 +384,10 @@ close.addEventListener('click', function () {
     reset(player);
     reset(computer);
     // Remove announcement
-    announcement.classList.remove('show');
+    announcement.className = 'announcement';
+    close.className = 'close';
+    announcementText.className = ''
     setup();
     enableButtons();
-    computerCards.firstChild.focus();
+    computerCards.focus();
 });

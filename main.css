@@ -8,12 +8,12 @@
 
 body {
     background: rgba(53, 103, 30, 1);
-    height: 98vh;
+    height: 100vh;
 }
 
 .computerSide,
 .playerSide {
-    height: 35vh;
+    height: 37vh;
 }
 
 .midTable {
@@ -33,7 +33,6 @@ button {
     font-size: 1rem;
     border-radius: 5px;
     box-shadow: 0px 0px 1px 1px rgba(255,255,255,0.3);
-    /* box-shadow: 0px 0px 2px 1px rgba(0,0,0,0.1); */
     color: white;
 }
 
@@ -42,7 +41,7 @@ button {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
-    margin-left: 1vw;
+    margin-left: 2vw;
 }
 
 .playerButtons button {
@@ -81,12 +80,10 @@ button:disabled {
     column-gap: 0.1rem;
     width: calc(90vw - 90px);
     margin-left: 2vw;
+    
 }
 
 .computerCards {
-    /* position: relative; */
-    /* top: 3vh;
-  left: 3vw; */
     padding-top: 2vh;
 }
 
@@ -107,7 +104,8 @@ button:disabled {
 .hidden {
     background: url('images/card-back.png') center;
     background-size: 65px 105px;
-    border: none;
+    border: 2px solid rgb(220, 63, 59);
+    /* border: none; */
 }
 
 .red {
@@ -124,28 +122,64 @@ button:disabled {
 .announcement {
     position: absolute;
     top: 30vh;
-    left: 25vw;
-    margin: 0 auto;
+    left: 27vw;
     height: 40vh;
-    width: 50vw;
+    width: 45vw;
     display: none;
     border-radius: 10px;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
-    background: rgb(83, 3, 20);
-    background: linear-gradient(217deg, rgba(255,0,0,1), rgba(255,0,0,0) 70.71%), 
-    linear-gradient(127deg, rgba(0,255,0,1), rgba(0,255,0,0) 70.71%), 
-    linear-gradient(336deg, rgba(0,0,255,1), rgba(0,0,255,1) 70.71%); 
     box-shadow: 1px 1px 3px 3px rgba(0,0,0,0.4);
+    color: white;
 }
 
 .announcement p {
-    color: white;
+    margin-top: 6%;
+    font-size: 1.3rem;
 }
 
 .show {
     display: flex;
+}
+
+.green {
+    color: rgb(37, 85, 25)
+}
+
+.computerWins {
+    background: url('images/matrix-code.jpeg') center;
+    background-size: cover;
+}
+
+.tie {
+    background: url('images/tie.jpg') center;
+    background-size: cover;
+}
+
+.playerWins {
+    background: url('images/casino-chips.jpg') center;
+    background-size: auto 100%;
+    background-repeat: no-repeat;
+}
+
+.playerText {
+    width: 100%;
+    height: 15%;
+    background: linear-gradient(to right bottom, rgb(240,240,240), rgb(150, 75, 221) 30%, rgb(92, 0, 179));
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}
+
+.redFont {
+    color: rgb(206, 7, 7);
+    background: rgba(240,240,240,0.9);
+}
+
+.purple {
+    color: blueviolet;
 }
 
 
@@ -224,21 +258,32 @@ button:disabled {
 
     .hidden {
     background-size: 90px 145px;
-}
-.playerButtons {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    width: 20vw;
-}
+    }
 
-.playerButtons button {
-    width: 8vw;
-}
+    .playerButtons {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        width: 20vw;
+        margin-left: 1vw;
+    }
+
+    .playerButtons button {
+        width: 8vw;
+    }
+
+    .announcement {
+        width: 40vw;
+        left: 30vw;
+    }
 }
 
 @media (min-width: 1000px) {
     html {
         font-size: 20px;
+    }
+    .announcement {
+        width: 35vw;
+        left: 33vw;
     }
 }
