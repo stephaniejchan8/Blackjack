@@ -11,6 +11,10 @@ const blackjack = 21;
 const computerHandLimit = 17;
 
 // ========== JS VARIABLES ===========
+// JS variable for start game
+const instructions = document.querySelector('.instructions');
+const startGame = document.querySelector('.startGame');
+
 // JS variable for winner annoucement
 const announcement = document.querySelector('.announcement');
 const announcementText = document.querySelector('.announcement p');
@@ -373,6 +377,10 @@ function reset(user) {
 
 // ========== START GAME ===========
 setup();
+startGame.addEventListener('click', function() {
+    instructions.className = 'instructions';
+    enableButtons();
+});
 
 // ========== NEXT GAME ===========
 // Clicking close triggers new game

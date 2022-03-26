@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <aside class="instructions">
+    <aside class="instructions showNormal">
         <h1>Blackjack</h1>
         <h2>How to Play:</h2>
         <p>Each player tries to obtain a hand value as close to 21 as possible, without going over 21.</p>
@@ -27,7 +27,7 @@
             <li>Face cards are worth 10.</li>
             <li>Aces are worth 1 or 11 (each player chooses).</li>
         </ul></p>
-        <button>START GAME</button>
+        <button class="startGame">START GAME</button>
     </aside>
     <section class="computerSide">
         <div class="computerCards" tabindex="2" aria-label="Computer's cards">
@@ -53,8 +53,8 @@
     </aside>
     <section class="midTable">
         <div class="playerButtons">
-            <button class="hit" tabindex="3">Hit Me</button>
-            <button class="stand" tabindex="3">Stand</button>
+            <button class="hit" tabindex="3" disabled>Hit Me</button>
+            <button class="stand" tabindex="3" disabled>Stand</button>
         </div>
         <div class="card hidden"></div>
     </section>

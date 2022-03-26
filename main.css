@@ -30,9 +30,9 @@ body {
 
 .instructions {
     position: absolute;
-    width: 50vw;
-    /* height: 40vh; */
-    margin: 10vh 24vw 0;
+    display: none;
+    width: 60vw;
+    margin: 5vh 20vw 0;
     padding: 3% 5%;
     background: white;
     border: 3px solid black;
@@ -45,12 +45,18 @@ body {
 }
 
 .instructions h1 {
+    font-size: 1.7rem;
     margin-top: 0;
     text-align: center;
 }
 
+.instructions h2 {
+    font-size: 1.4rem;
+}
+
 .instructions h3 {
     margin-top: 1rem;
+    font-size: 1.2rem;
 }
 
 .instructions p, ul {
@@ -73,8 +79,8 @@ body {
 .instructions button {
     display: block;
     margin: 1.2rem auto 0;
-    color: black;
     font-weight: 500;
+    font-size: 0.9rem;
 }
 
 /* ============== BUTTONS ============= */
@@ -84,11 +90,9 @@ button {
     font-size: 1rem;
     border-radius: 5px;
     box-shadow: 0px 0px 1px 1px rgba(255,255,255,0.3);
-    color: white;
 }
 
 .playerButtons {
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -97,6 +101,7 @@ button {
 
 .playerButtons button {
     box-shadow: 0px 0px 2px 2px rgba(255,255,255,0.6);
+    color: white;
     font-family: 'Bebas Neue', sans-serif;
 }
 
@@ -188,6 +193,10 @@ button:disabled {
 .announcement p {
     margin-top: 6%;
     font-size: 1.3rem;
+}
+
+.showNormal {
+    display: block;
 }
 
 .show {
@@ -336,5 +345,10 @@ button:disabled {
     .announcement {
         width: 35vw;
         left: 33vw;
+    }
+
+    .instructions {
+        margin: 10vh 24vw 0;
+        width: 50vw;
     }
 }
