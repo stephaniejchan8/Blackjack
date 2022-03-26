@@ -36,11 +36,21 @@ Priorities
 5. Change game play to alternating turns
 
 Extra:
-- hidden cards
+- explanation of Blackjack rules
+- make it clear which side is the computer and player side
 - player and computer alternate in hitting
+- hidden cards
+- quicker loading of game outcome image
+- computer should not hit if their hand value is greater than the players
 - CSS animations to reveal card from deck
 - roll dice/coin toss to determine who goes first
 - make small talk
 - show hidden card value
 - make player's cards look realistic - rotated, overlapping
 - add betting function
+
+
+EXPLANATION
+- on page load, modal of instructions
+- button to open instructions again
+- other elements on page should not be able to interact with while modal is open
