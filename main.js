@@ -11,9 +11,10 @@ const blackjack = 21;
 const computerHandLimit = 17;
 
 // ========== JS VARIABLES ===========
-// JS variable for start game
+// JS variable for game instructions
 const instructions = document.querySelector('.instructions');
 const startGame = document.querySelector('.startGame');
+const openInstructions = document.querySelector('.openInstructions');
 
 // JS variable for winner annoucement
 const announcement = document.querySelector('.announcement');
@@ -399,3 +400,9 @@ close.addEventListener('click', function () {
     enableButtons();
     computerCards.focus();
 });
+
+// ========== OPEN GAME INSTRUCTIONS ===========
+openInstructions.addEventListener('click', function() {
+    disableButtons();
+    instructions.classList.add('showNormal');
+})
