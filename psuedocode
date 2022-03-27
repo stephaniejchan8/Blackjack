@@ -46,8 +46,9 @@ Extra:
 - roll dice/coin toss to determine who goes first
 - make small talk
 - show hidden card value
-- make player's cards look realistic - rotated, overlapping
+- make players cards look realistic - rotated, overlapping
 - add betting function
+- made code more modular - separate code into different files to make it easier to read/navigate (from the perspective of someone who has never read your code)
 
 
 EXPLANATION

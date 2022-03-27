@@ -29,10 +29,15 @@ body {
 /* ============== GAME INSTRUCTIONS ============= */
 
 .instructions {
-    position: absolute;
+    position: fixed;
+    z-index: 2;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);;
     display: none;
-    width: 60vw;
-    margin: 5vh 20vw 0;
+    width: 95vw;
+    /* width: 60vw; */
+    /* margin: 5vh 20vw 0; */
     padding: 3% 5%;
     background: white;
     border: 3px solid black;
@@ -95,12 +100,13 @@ button {
 .openInstructions {
     display: block;
     position: absolute;
-    top: 10vh;
+    top: 14vh;
     right: 4vw;
     font-size: 0.7rem;
 }
 
 .playerButtons {
+    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -255,7 +261,7 @@ button:disabled {
 
 .gameScoreContainer,
 .handValueContainer {
-    position: absolute;
+    position: fixed;
     display: inline-block;
     right: 2vw;
     text-align: center;
@@ -344,6 +350,10 @@ button:disabled {
         width: 40vw;
         left: 30vw;
     }
+    .instructions {
+        /* margin: 10vh 24vw 0; */
+        width: 70vw;
+    }
 }
 
 @media (min-width: 1000px) {
@@ -354,9 +364,9 @@ button:disabled {
         width: 35vw;
         left: 33vw;
     }
-
+    
     .instructions {
-        margin: 10vh 24vw 0;
+        /* margin: 10vh 24vw 0; */
         width: 50vw;
     }
 }
